@@ -36,7 +36,13 @@ Chat-based Agent (leveraged Claude to create Agent template class)
 
 ## Setup Instructions [Optional]
 
-[ If you have time, please add details on how someone else can start using your project here ]
+[ If you have time, please add details on how someone else can start using your
+project here ]
+
+```
+set $NAMESPACE = "IRISAPP"
+zpm "install dataset-health"
+```
 
 ## Publicly accessible statement
 
@@ -124,17 +130,20 @@ There is a basic agent in src/Sample.Agent, a simple way to use it from objectsc
 
 ```objectscript
 set $NAMESPACE= "IRISAPP"
-Set agent = ##class(Sample.Agent).%New()
+Set agent = ##class(CTEA.Agent).%New()
 Set sc = agent.%Init()
 write:sc'=1 $SYSTEM.Status.GetErrorText(sc), !
-
 Set session = agent.CreateSession()
-
-// This requires using both tools defined in Sample.Tools and packaged in Sample.ToolSet
-Set request = "Add a person named Alice aged 30, and then get people younger than 35."
+Set request = "Using the CountPatients tool, how many total patients do we have?"
 Set response = agent.Chat(session, request)
-write response.content
+write response.Content
 ```
+
+For debugging, please use this command:
+```Objectscript
+do $SYSTEM.AI.Shell("openai",$System.Util.GetEnviron("OPENAI_API_KEY"),,"CTEA.ToolSet")
+```
+For help use `/help`
 
 ### Test MCP Server
 

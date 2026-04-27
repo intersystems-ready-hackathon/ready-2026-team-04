@@ -5,22 +5,33 @@
         "iris.script": "objectscript"
       },
     "objectscript.conn" :{
-      "active": false,
-      "ns": "IRISAPP",
-      "username": "_SYSTEM",
-      "password": "SYS",
-      "docker-compose": {
-        "service": "iris",
-        "internalPort": 52773
-      },
-      "links": {
-        "UnitTest Portal": "${serverUrl}/csp/sys/%25UnitTest.Portal.Home.cls?$NAMESPACE=IRISAPP",
-        "Error Log": "${serverUrl}/csp/sys/op/UtilSysAppErrorNamespaces.csp"
-      }
+        "active": true,
+        "ns": "IRISAPP",
+        "username": "_SYSTEM",
+        "password": "SYS",
+        "docker-compose": {
+            "service": "iris",
+            "internalPort": 52773
+        },
+        "links": {
+            "UnitTest Portal": "${serverUrl}/csp/sys/%25UnitTest.Portal.Home.cls?$NAMESPACE=IRISAPP",
+            "Error Log": "${serverUrl}/csp/sys/op/UtilSysAppErrorNamespaces.csp"
+        },
+        "server": "localhost"
     },
     "intersystems.testingManager.client.relativeTestRoot": "tests",
     "chat.tools.terminal.autoApprove": {
       "docker exec": true
+    },
+    "intersystems.servers": {
+        "localhost": {
+            "webServer": {
+                "scheme": "http",
+                "host": "localhost",
+                "port": 52773
+            },
+            "username": "_SYSTEM"
+        }
     }
 
 }
