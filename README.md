@@ -173,3 +173,98 @@ An example python MCP client is shown in test_mcp_connection.py, which uses Lang
 pip install langchain-mcp-adapters
 python test_mcp.py
 ```
+
+
+# DEMO
+
+1. Create .env file with OPENAI_API_KEY
+
+2. Run container
+
+```sh
+docker compose up -d
+```
+
+3. Load example health data
+
+```sh
+docker-compose exec -it iris iris session iris
+```
+```ObjectScript
+set $NAMESPACE = "IRISAPP"
+zpm "install dataset-health"
+```
+
+4. Run the demo:
+
+```ObjectScript
+do $SYSTEM.AI.Shell("openai",$System.Util.GetEnviron("OPENAI_API_KEY"),,"CTEA.ToolSet")
+```
+
+Example Interaction:
+
+```
+You> How many patients lived?
+┃ Authorization Request
+┃ Tool:      CountPatients
+┃ Arguments: {}
+┃     Allow execution? (Y/n/A) Y
+
+┃ OK CountPatients → {"columns":[{"name":"patient_count","type":"INTEGER"}],"rows":[{"patient_count":"155"}],"row_coun... [1ms]
+
+AI> There are 155 patients in total.  
+If you’d like, I can break this down further (e.g., by sex, age range, or risk factors) using the outcomes data.
+
+Elapsed: 8.32s
+
+You> Yes, please break this data down further
+┃ Authorization Request
+┃ Tool:      GetOutcomeStats
+┃ Arguments: {}
+┃     Allow execution? (Y/n/A) Y
+
+┃ OK GetOutcomeStats → {"columns":[{"name":"outcome","type":"VARCHAR"},{"name":"patient_count","type":"INTEGER"},{"name"... [60ms]
+
+┃ Authorization Request
+┃ Tool:      GetRiskFactorCounts
+┃ Arguments: {}
+┃     Allow execution? (Y/n/A) Y
+
+┃ OK GetRiskFactorCounts → {"columns":[{"name":"outcome","type":"VARCHAR"},{"name":"total_patients","type":"INTEGER"},{"name... [46ms]
+
+AI> Here’s a breakdown of the outcomes and some key characteristics.
+Outcome counts
+Out of 155 total patients:
+- Lived: 123  
+- Died: 32  
+Average values by outcome
+Patients who lived (123)
+- Average age: 39.8 years  
+- Average bilirubin: 1.15  
+- Average albumin: 3.98  
+- Average SGOT: 82.4  
+- Average alkaline phosphatase: 101.3  
+- Average prothrombin time: 66.6  
+Patients who died (32)
+- Average age: 46.6 years  
+- Average bilirubin: 2.54  
+- Average albumin: 3.15  
+- Average SGOT: 99.8  
+- Average alkaline phosphatase: 122.4  
+- Average prothrombin time: 43.5  
+So, on average, the patients who died were older and had more abnormal lab values (higher bilirubin, higher enzymes, 
+lower albumin, shorter prothrombin time).
+Risk factor / symptom counts
+For the categorical risk factors and symptoms we have here (ascites, varices, spiders, liver big, liver firm, spleen 
+palpable, fatigue, anorexia, malaise), the stored counts are:
+- All listed risk factors/symptoms show count 0 for both:
+  - Outcome = LIVE (123 patients)
+  - Outcome = DIE (32 patients)
+This likely means these particular fields were not recorded/populated in this dataset, rather than truly being absent
+clinically.
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+If you tell me what you’re most interested in (e.g., age-specific survival, lab value thresholds, or filtering by 
+sex), I can run more targeted searches over this patient set.
+
+Elapsed: 11.41s
+```
