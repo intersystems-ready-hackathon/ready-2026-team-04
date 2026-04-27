@@ -1,12 +1,38 @@
-# TEAM 04 - [ Name of Project ] 
+# TEAM 04 - [ Clinical Trial Effectiveness Assessment ] 
+
+- Anthony (collaboration, design, and build)
+- Himanshu (collaboration)
+- Jacob (collaboration, design, and build)
+- MikeM (collaboration, design)
+- MikeY (collaboration, scribe)
 
 ## Project Summary 
 
-[ Add a 1-2 sentence summary of your project here - i,e. what is the high level goal of your project ] 
+Agent to look at clinical-trial data and assess impact by patient.  Output will be based on predefined categories.
+
+Leverage "dataset-health" provided by InterSystem.
+
+Focus on Hepititis B - mortality risk - generate a ranking of patient status/progress using clinical trial treatment plan
+
+Mortailty Risk - Impact Assessment Scores:
+- low - no change in treatment plan
+- medium - modification of treatment plan?
+- high - focus on quality of life
+
+Stretch Goals:
+- Agent Feedback loop / Recommendations
+
 
 ## Technical Details
 
-[ Add details on the technical implementation of your project here ] 
+- Data
+- Built model based on Hepititis B
+- Built matrix for agent to use
+- added class file to help agent get the data out
+- python script to run the data through the model
+Chat-based Agent (leveraged Claude to create Agent template class)
+- Extended %AI.Toolset
+- Create an MCP Service class (extended %AI.MCP.Service)
 
 ## Setup Instructions [Optional]
 
