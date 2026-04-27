@@ -4,3 +4,7 @@ iris-main.log
 .git
 **.tar.gz
 **.tar
+venv/
+__pycache__/
+*.pyc
+*.pyo

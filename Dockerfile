@@ -1,6 +1,5 @@
-ARG IMAGE=docker.iscinternal.com/docker-intersystems/intersystems/irishealth-community:2026.2.0AI.158.0
+ARG IMAGE=docker.iscinternal.com/docker-intersystems/intersystems/iris-community:2026.2.0AI.162.0
 FROM $IMAGE as builder
-
 WORKDIR /home/irisowner/dev
 
 ARG TESTS=0
